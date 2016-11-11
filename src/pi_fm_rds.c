@@ -579,52 +579,54 @@ int main(int argc, char **argv) {
         char *arg = argv[i];
         char *param = NULL;
         
+        // fetch parameter
         if(arg[0] == '-' && arg[1] != '-' && i+1 < argc) {
             param = argv[i+1];
             i++;
         }
         
-        if((strcmp("-wav", arg)==0 || strcmp("-audio", arg)==0) && param != NULL) {
-            audio_file = param;
-        } else if(strcmp("-freq", arg)==0 && param != NULL) {
-            carrier_freq = 1e6 * atof(param);
-            if(carrier_freq < 76e6 || carrier_freq > 108e6)
-                warn("Frequency should be in megahertz, of the form 107.9, between 76 and 108.\n");
-        } else if(strcmp("-pi", arg)==0 && param != NULL) {
-            pi = (uint16_t) strtol(param, NULL, 16);
-        } else if(strcmp("-ps", arg)==0 && param != NULL) {
-            ps = param;
-        } else if(strcmp("-rt", arg)==0 && param != NULL) {
-            rt = param;
-        } else if(strcmp("-ppm", arg)==0 && param != NULL) {
-            ppm = atof(param);
-        } else if(strcmp("-ctl", arg)==0 && param != NULL) {
-            control_pipe = param;
-        } else if(strcmp("-preemph", arg)==0 && param != NULL) {
-            if(strcmp("eu", param)==0) {
-                preemphasis_cutoff = PREEMPHASIS_EU;
-            } else if(strcmp("us", param)==0) {
-                preemphasis_cutoff = PREEMPHASIS_US;
-            } else {
-                preemphasis_cutoff = atof(param);
-            }
-        } else if(strcmp("-cutoff", arg)==0 && param != NULL) {
-            if(strcmp("compliant", param)==0) {
-                cutoff = CUTOFF_COMPLIANT;
-            } else if(strcmp("quality", param)==0) {
-                cutoff = CUTOFF_QUALITY;
-            } else {
-                cutoff = atof(param);
-            }
-        } else if(strcmp("-dev", arg)==0 && param != NULL) {
-            if (strcmp("wbfm", param)==0){
-                deviation = DEVIATION_WBFM;
-            } else if (strcmp("nbfm", param)==0) {
-                deviation = DEVIATION_NBFM;
-            } else {
-                deviation = atof(param);
-            }
-        } else if(strcmp("--ta", arg)==0) {
+
+        if (param) {
+            // args that requires a parameter
+            if (!strcmp("-wav", arg) || !strcmp("-audio", arg)) {
+                audio_file = param;
+            } else if(!strcmp("-freq", arg)) {
+                carrier_freq = 1e6 * atof(param);
+                if(carrier_freq < 76e6 || carrier_freq > 108e6)
+                    warn("Frequency should be in megahertz, of the form 107.9, between 76 and 108.\n");
+            } else if (!strcmp("-pi", arg)) {
+                pi = (uint16_t) strtol(param, NULL, 16);
+            } else if (!strcmp("-ps", arg)) {
+                ps = param;
+            } else if (!strcmp("-rt", arg)) {
+                rt = param;
+            } else if (!strcmp("-ppm", arg)) {
+                ppm = atof(param);
+            } else if (!strcmp("-ctl", arg)) {
+                control_pipe = param;
+            } else if (!strcmp("-preemph", arg)) {
+                if (!strcmp("eu", param))
+                    preemphasis_cutoff = PREEMPHASIS_EU;
+                else if (!strcmp("us", param))
+                    preemphasis_cutoff = PREEMPHASIS_US;
+                else
+                    preemphasis_cutoff = atof(param);
+            } else if (!strcmp("-cutoff", arg)) {
+                if (!strcmp("compliant", param))
+                    cutoff = CUTOFF_COMPLIANT;
+                else if(!strcmp("quality", param))
+                    cutoff = CUTOFF_QUALITY;
+                else
+                    cutoff = atof(param);
+            } else if (!strcmp("-dev", arg)) {
+                if (!strcmp("wbfm", param))
+                    deviation = DEVIATION_WBFM;
+                else if (!strcmp("nbfm", param))
+                    deviation = DEVIATION_NBFM;
+                else {
+                    deviation = atof(param);
+            } 
+        } else if (!strcmp("--ta", arg)) {
             ta = 1;
         } else {
             fatal("Unrecognised argument: %s.\n"
