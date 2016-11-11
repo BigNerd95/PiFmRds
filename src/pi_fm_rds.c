@@ -623,7 +623,7 @@ int main(int argc, char **argv) {
                     deviation = DEVIATION_WBFM;
                 else if (!strcmp("nbfm", param))
                     deviation = DEVIATION_NBFM;
-                else {
+                else
                     deviation = atof(param);
             } 
         } else if (!strcmp("--ta", arg)) {
