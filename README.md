@@ -51,7 +51,7 @@ To test stereophonic audio, you can try the file `stereo_44100.wav` provided.
 The more general syntax for running Pi-FM-RDS is as follows:
 
 ```
-pi_fm_rds [-freq freq] [-audio file] [-ppm ppm_error] [-pi pi_code] [-ps ps_text] [-rt rt_text] [-cutoff cutoff_freq] [-preemph preemphasis_mode]
+pi_fm_rds [-freq freq] [-audio file] [-ppm ppm_error] [-pi pi_code] [-ps ps_text] [-rt rt_text] [-ta] [-cutoff cutoff_freq] [-preemph preemphasis_mode]
 ```
 
 All arguments are optional:
@@ -61,6 +61,7 @@ All arguments are optional:
 * `-pi` specifies the PI-code of the RDS broadcast. 4 hexadecimal digits. Example: `-pi FFFF`.
 * `-ps` specifies the station name (Program Service name, PS) of the RDS broadcast. Limit: 8 characters. Example: `-ps RASP-PI`.
 * `-rt` specifies the radiotext (RT) to be transmitted. Limit: 64 characters. Example: `-rt 'Hello, world!'`.
+* `-ta` enables or disables traffic announcement (TA) mode on startup.
 * `-ctl` specifies a named pipe (FIFO) to use as a control channel to change PS and RT at run-time (see below).
 * `-ppm` specifies your Raspberry Pi's oscillator error in parts per million (ppm), see below.
 * `-cutoff` specifies the cutoff frequency (in Hz, 'compliant' for 15,000Hz or 'quality' for 22,050Hz) used by Pi-FM-RDS' internal lowpass filter. Values greater than 15000 are not compliant. Use carefully.
