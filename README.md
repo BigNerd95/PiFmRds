@@ -1,6 +1,12 @@
-Pi-FM-RDS
+Pi-FM-RDS extended
 =========
 
+### Extended features
+- No frequences limits
+- Higer cutoff frequency for better quality
+- Adjustable preemphasis cutoff frequency
+- Adjustable frequency deviation
+- Traffic Announcement flag from CLI
 
 ## FM-RDS transmitter using the Raspberry Pi
 
