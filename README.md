@@ -65,6 +65,7 @@ All arguments are optional:
 * `-ppm` specifies your Raspberry Pi's oscillator error in parts per million (ppm), see below.
 * `-cutoff` specifies the cutoff frequency (in Hz, 'compliant' for 15,000Hz or 'quality' for 22,050Hz) used by Pi-FM-RDS' internal lowpass filter. Values greater than 15000 are not compliant. Use carefully.
 * `-preemph` specifies which preemph should be used, since it differs from location. For Europe choose 'eu', for the US choose 'us'.
+* `-dev` specifies the frequency deviation (in KHz). Use `wbfm` for broadcast radio (25.0 KHz), `nbfm` for walkie-talkie style radio (3.5 KHz) or `-dev 20.0`.
 
 By default the PS changes back and forth between `Pi-FmRds` and a sequence number, starting at `00000000`. The PS changes around one time per second.
 
@@ -186,6 +187,7 @@ The samples are played by `pi_fm_rds.c` that is adapted from Richard Hirst's [Pi
 ## History
 
 * 2015-09-05: support for the Raspberry Pi 2
+* 2014-11-08: support for non-standard frequencies and frequency deviations
 * 2014-11-01: support for toggling the Traffic Announcement (TA) flag at run-time
 * 2014-10-19: bugfix (cleanly stop the DMA engine when the specified file does not exist, or it's not possible to read from stdin)
 * 2014-08-04: bugfix (ppm now uses floats)
