@@ -1,4 +1,4 @@
-Pi-FM-RDS extended
+Pi-FM-RDS limitless
 =========
 
 ### Extended features
