@@ -112,15 +112,15 @@
 #define MBFILE            DEVICE_FILE_NAME    /* From mailbox.h */
 
 #if (RASPI)==1
-#define PERIPH_VIRT_BASE 0x20000000
-#define PERIPH_PHYS_BASE 0x7e000000
-#define DRAM_PHYS_BASE 0x40000000
-#define MEM_FLAG 0x0c
+#define PERIPH_VIRT_BASE  0x20000000
+#define PERIPH_PHYS_BASE  0x7e000000
+#define DRAM_PHYS_BASE    0x40000000
+#define MEM_FLAG          0x0c
 #elif (RASPI)==2
-#define PERIPH_VIRT_BASE 0x3f000000
-#define PERIPH_PHYS_BASE 0x7e000000
-#define DRAM_PHYS_BASE 0xc0000000
-#define MEM_FLAG 0x04
+#define PERIPH_VIRT_BASE  0x3f000000
+#define PERIPH_PHYS_BASE  0x7e000000
+#define DRAM_PHYS_BASE    0xc0000000
+#define MEM_FLAG          0x04
 #else
 #error Unknown Raspberry Pi version (variable RASPI)
 #endif
@@ -129,77 +129,91 @@
 #define NUM_CBS            (NUM_SAMPLES * 2)
 
 #define BCM2708_DMA_NO_WIDE_BURSTS    (1<<26)
-#define BCM2708_DMA_WAIT_RESP        (1<<3)
-#define BCM2708_DMA_D_DREQ        (1<<6)
+#define BCM2708_DMA_WAIT_RESP         (1<<3)
+#define BCM2708_DMA_D_DREQ            (1<<6)
 #define BCM2708_DMA_PER_MAP(x)        ((x)<<16)
-#define BCM2708_DMA_END            (1<<1)
-#define BCM2708_DMA_RESET        (1<<31)
-#define BCM2708_DMA_INT            (1<<2)
+#define BCM2708_DMA_END               (1<<1)
+#define BCM2708_DMA_RESET             (1<<31)
+#define BCM2708_DMA_INT               (1<<2)
 
-#define DMA_CS            (0x00/4)
-#define DMA_CONBLK_AD        (0x04/4)
-#define DMA_DEBUG        (0x20/4)
+#define DMA_CS             (0x00/4)
+#define DMA_CONBLK_AD      (0x04/4)
+#define DMA_DEBUG          (0x20/4)
 
-#define DMA_BASE_OFFSET        0x00007000
-#define DMA_LEN            0x24
-#define PWM_BASE_OFFSET        0x0020C000
-#define PWM_LEN            0x28
-#define CLK_BASE_OFFSET            0x00101000
-#define CLK_LEN            0xA8
+#define DMA_BASE_OFFSET     0x00007000 // DMA Channel 0 (other channel are shifted by 0x100)
+#define DMA_LEN             0x24       // Length of a DMA channel regiser map
+#define PWM_BASE_OFFSET     0x0020C000 //
+#define PWM_LEN             0x28       // Length of PWM register map
+#define CLK_BASE_OFFSET     0x00101000
+#define CLK_LEN             0xA8
 #define GPIO_BASE_OFFSET    0x00200000
-#define GPIO_LEN        0x100
+#define GPIO_LEN            0x100
 
-#define DMA_VIRT_BASE        (PERIPH_VIRT_BASE + DMA_BASE_OFFSET)
-#define PWM_VIRT_BASE        (PERIPH_VIRT_BASE + PWM_BASE_OFFSET)
-#define CLK_VIRT_BASE        (PERIPH_VIRT_BASE + CLK_BASE_OFFSET)
-#define GPIO_VIRT_BASE        (PERIPH_VIRT_BASE + GPIO_BASE_OFFSET)
-#define PCM_VIRT_BASE        (PERIPH_VIRT_BASE + PCM_BASE_OFFSET)
+#define DMA_VIRT_BASE      (PERIPH_VIRT_BASE + DMA_BASE_OFFSET)
+#define PWM_VIRT_BASE      (PERIPH_VIRT_BASE + PWM_BASE_OFFSET)
+#define CLK_VIRT_BASE      (PERIPH_VIRT_BASE + CLK_BASE_OFFSET)
+#define GPIO_VIRT_BASE     (PERIPH_VIRT_BASE + GPIO_BASE_OFFSET)
+#define PCM_VIRT_BASE      (PERIPH_VIRT_BASE + PCM_BASE_OFFSET)
 
-#define PWM_PHYS_BASE        (PERIPH_PHYS_BASE + PWM_BASE_OFFSET)
-#define PCM_PHYS_BASE        (PERIPH_PHYS_BASE + PCM_BASE_OFFSET)
-#define GPIO_PHYS_BASE        (PERIPH_PHYS_BASE + GPIO_BASE_OFFSET)
+// DMA_VIRT_BASE:  0x3f007000
+// PWM_VIRT_BASE:  0x3f20c000
+// CLK_VIRT_BASE:  0x3f101000
+// GPIO_VIRT_BASE: 0x3f200000
+// https://www.raspberrypi.org/wp-content/uploads/2012/02/BCM2835-ARM-Peripherals.pdf
+
+#define PWM_PHYS_BASE      (PERIPH_PHYS_BASE + PWM_BASE_OFFSET)
+#define PCM_PHYS_BASE      (PERIPH_PHYS_BASE + PCM_BASE_OFFSET)
+#define GPIO_PHYS_BASE     (PERIPH_PHYS_BASE + GPIO_BASE_OFFSET)
 
 
-#define PWM_CTL            (0x00/4)
+#define PWM_CTL         (0x00/4)
 #define PWM_DMAC        (0x08/4)
 #define PWM_RNG1        (0x10/4)
 #define PWM_FIFO        (0x18/4)
 
-#define PWMCLK_CNTL        40
-#define PWMCLK_DIV        41
+#define PWMCLK_CNTL      40
+#define PWMCLK_DIV       41
 
+// Clock Manager General Purpose Clocks Control
+#define CM_GP0CTL (0x7e101070) // added
+#define CM_GP1CTL (0x7e101078) // added
+#define CM_GP2CTL (0x7e101080) // added
+
+// Clock Manager General Purpose Clock Divisors
 #define CM_GP0DIV (0x7e101074)
+#define CM_GP1DIV (0x7e10107c) // added
+#define CM_GP2DIV (0x7e101084) // added
 
-#define GPCLK_CNTL        (0x70/4)
-#define GPCLK_DIV        (0x74/4)
+#define GPCLK_CNTL      (0x70/4) // 28 (CM_GP0CTL: 0x7e101070)
+#define GPCLK_DIV       (0x74/4) // 29 (CM_GP0DIV: 0x7e101074)
 
-#define PWMCTL_MODE1        (1<<1)
-#define PWMCTL_PWEN1        (1<<0)
-#define PWMCTL_CLRF        (1<<6)
-#define PWMCTL_USEF1        (1<<5)
+#define PWMCTL_MODE1    (1<<1)
+#define PWMCTL_PWEN1    (1<<0)
+#define PWMCTL_CLRF     (1<<6)
+#define PWMCTL_USEF1    (1<<5)
 
-#define PWMDMAC_ENAB        (1<<31)
+#define PWMDMAC_ENAB    (1<<31)
 // I think this means it requests as soon as there is one free slot in the FIFO
 // which is what we want as burst DMA would mess up our timing.
-#define PWMDMAC_THRSHLD        ((15<<8)|(15<<0))
+#define PWMDMAC_THRSHLD    ((15<<8)|(15<<0))
 
-#define GPFSEL0            (0x00/4)
+#define GPFSEL0    (0x00/4)
 
-#define PLLFREQ            500000000.    // PLLD is running at 500MHz
+#define PLLFREQ     500000000.    // PLLD is running at 500MHz
 
 // Preemphasis to reduces the high-frequency noise.
 // See (https://en.wikipedia.org/wiki/FM_broadcasting#Pre-emphasis_and_de-emphasis)
-#define PREEMPHASIS_EU 3185
-#define PREEMPHASIS_US 2120
+#define PREEMPHASIS_EU    3185
+#define PREEMPHASIS_US    2120
 
 // Lowpass cutoff frequency.
-#define CUTOFF_COMPLIANT 15000
-#define CUTOFF_QUALITY 22050
+#define CUTOFF_COMPLIANT  15000
+#define CUTOFF_QUALITY    22050
 
 // The deviation specifies how wide the signal is. Use 25.0 for WBFM
 // (broadcast radio) and about 3.5 for NBFM (walkie-talkie style radio)
-#define DEVIATION_WBFM      25.0
-#define DEVIATION_NBFM      3.5
+#define DEVIATION_WBFM    25.0
+#define DEVIATION_NBFM    3.5
 
 
 
@@ -213,8 +227,8 @@ typedef struct {
 
 static struct {
     int handle;            /* From mbox_open() */
-    unsigned mem_ref;    /* From mem_alloc() */
-    unsigned bus_addr;    /* From mem_lock() */
+    unsigned mem_ref;      /* From mem_alloc() */
+    unsigned bus_addr;     /* From mem_lock() */
     uint8_t *virt_addr;    /* From mapmem() */
 } mbox;
 
@@ -249,7 +263,8 @@ static void terminate(int num) {
         gpio_reg[GPFSEL0] = (gpio_reg[GPFSEL0] & ~(7 << 12)) | (1 << 12);
 
         // Disable the clock generator.
-        clk_reg[GPCLK_CNTL] = 0x5A;
+        //clk_reg[GPCLK_CNTL] = 0x5A;
+        clk_reg[GPCLK_CNTL] = 0x5A000000;
     }
 
     if (dma_reg && mbox.virt_addr) {
@@ -417,18 +432,46 @@ int tx(uint32_t carrier_freq, char *audio_file, uint16_t pi, char *ps, char *rt,
                 ppm, divider, idivider, fdivider);
     */
 
-    uint32_t divider = (500000 << 12) / 2 / 228 / (1.+ppm/1.e6);
+    // Clock Manager General Purpose Clock Divisors
+    uint32_t divisor = (500000 << 12) / 2 / 228 / (1.+ppm/1.e6);
+    // shift 12 bit left to integrate fractional part in the result
 
     pwm_reg[PWM_CTL] = 0;
     udelay(10);
     clk_reg[PWMCLK_CNTL] = 0x5A000006;              // Source=PLLD and disable
+    // PASSWD: 0x5A
+    // UNUSED: 0x000
+    // UNUSED: 0b0
+    // MASH integer division: 0b00
+    // FLIP: 0b0
+    // BUSY: 0b0
+    // UNUSED: 0b0
+    // NO ACTION: 0b0
+    // DISABLE: 0b0
+    // PLLD per: 0x6
     udelay(100);
+
     // theorically : 1096 + 2012*2^-12
     //clk_reg[PWMCLK_DIV] = 0x5A000000 | (idivider<<12) | fdivider;
-    clk_reg[PWMCLK_DIV] = 0x5A000000 | divider;
+    clk_reg[PWMCLK_DIV] = 0x5A000000 | divisor;
+    // PASSWD: 0x5A
+    // DIVI (Integer part of divisor): 0xXXX
+    // DIVF (Fractional part of divisor): 0xXXX
     udelay(100);
+
     clk_reg[PWMCLK_CNTL] = 0x5A000216;              // Source=PLLD and enable + MASH filter 1
+    // PASSWD: 0x5A
+    // UNUSED: 0x000
+    // UNUSED: 0b0
+    // 1-stage MASH (non-MASH dividers): 0b01
+    // FLIP: 0b0
+    // BUSY: 0b0
+    // UNUSED: 0b0
+    // NO ACTION: 0b0
+    // ENABLE: 0b1
+    // PLLD per: 0x6
     udelay(100);
+
     pwm_reg[PWM_RNG1] = 2;
     udelay(10);
     pwm_reg[PWM_DMAC] = PWMDMAC_ENAB | PWMDMAC_THRSHLD;
